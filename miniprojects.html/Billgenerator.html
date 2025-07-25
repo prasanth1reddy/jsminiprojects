@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sweet Bites Bakery</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f3f0f5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      flex-direction: column;
+    }
+
+    .bill-card {
+      background-color: #fff;
+      border: 1px solid #0ac72d;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      width: 100%;
+      max-width: 400px;
+      display: none;
+    }
+
+    .bill-card h3 {
+      color: #aa0061;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+
+    .bill-card p {
+      text-align: left;
+      margin: 5px 0;
+    }
+
+    .thankyou {
+      text-align: center;
+      margin-top: 15px;
+      font-weight: bold;
+      color: #552288;
+    }
+
+    button {
+      background-color: #aa0061;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+
+    button:hover {
+      background-color: #88004c;
+    }
+  </style>
+</head>
+<body>
+
+<button onclick="generateBill()"> Generate Bill</button>
+
+<div class="bill-card" id="billCard">
+  <h3>🍰 Reddy Bakery</h3>
+  <p><strong>Customer Name:</strong> <span id="outName"></span></p>
+  <p><strong>Item Ordered:</strong> <span id="outItem"></span></p>
+  <p><strong>Quantity:</strong> <span id="outQty"></span></p>
+  <p><strong>Price per Item:</strong> ₹<span id="outPrice"></span></p>
+  <p><strong>Total:</strong> ₹<span id="outTotal"></span></p>
+  <p><strong>Discounted Total (10% off):</strong> ₹<span id="outDiscounted"></span></p>
+  <p class="thankyou">🧁 Thank you for your order! Come again! 🧁</p>
+</div>
+
+<script>
+  let menuItems = [
+    { name: "BunMaska", price: 100 },
+    { name: "SPLTea", price: 25 },
+    { name: "OsmaniaBiscuits", price: 5 }
+  ];
+
+  function generateBill() {
+    const customerName = prompt("Enter customer name:");
+    if (!customerName) return;
+
+    const itemInput = prompt("Enter item name: BunMaska, SPLTea, OsmaniaBiscuits");
+    const selectedItem = menuItems.find(i => i.name.toLowerCase() === itemInput.toLowerCase());
+
+    if (!selectedItem) {
+      alert("Item not found in menu!");
+      return;
+    }
+
+    const qty = parseInt(prompt("Enter quantity:"));
+    if (isNaN(qty) || qty <= 0) {
+      alert("Invalid quantity");
+      return;
+    }
+
+    const discount = 10; // %
+    const total = qty * selectedItem.price;
+    const discountedTotal = total - (total * (discount / 100));
+
+    // Show results
+    document.getElementById("outName").textContent = customerName;
+    document.getElementById("outItem").textContent = selectedItem.name;
+    document.getElementById("outQty").textContent = qty;
+    document.getElementById("outPrice").textContent = selectedItem.price.toFixed(2);
+    document.getElementById("outTotal").textContent = total.toFixed(2);
+    document.getElementById("outDiscounted").textContent = discountedTotal.toFixed(2);
+
+    document.getElementById("billCard").style.display = "block";
+  }
+</script>
+
+</body>
+</html>
